@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Solar System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.js"></script>
+    <script type="module">
+        import { OrbitControls } from 'https://threejs.org/examples/jsm/controls/OrbitControls.js'
+
+        const renderer = new THREE.WebGLRenderer({alpha: true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      
+        document.body.appendChild(renderer.domElement);
+
+        const fov = 40;
+        const aspect = 2;
+        const near = 0.1;
+        const far = 1000;
+        const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+        camera.position.set(0, 50, 0);
+        camera.up.set(0, 0, 1);
+        camera.lookAt(0, 0, 0);
+
+        const scene = new THREE.Scene();
+
+        const color = 0xFFFFFF;
+        const intensity = 3;
+        const light = new THREE.PointLight(color, intensity);
+        scene.add(light);
+
+        const radius = 1;
+        const widthSegments = 128;
+        const heightSegments = 64;
+        const sphereGeometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
+
+        const loader = new THREE.TextureLoader();
+
+
+        // Sun
+        const solarSystem = new THREE.Object3D();
+        scene.add(solarSystem);
+
+        const sunMaterial = new THREE.MeshBasicMaterial({
+                map: loader.load('./textures/sun3.jpg'),
+            });
+        const sun = new THREE.Mesh(sphereGeometry, sunMaterial);
+        sun.scale.set(5, 5, 5);
+        solarSystem.add(sun);
+
+
+        //Mercury
+        const mercuryOrbit = new THREE.Object3D();
+        solarSystem.add(mercuryOrbit);
+
+        const mercuryMaterial = new THREE.MeshBasicMaterial({
+                map: loader.load('./textures/mercury.jpg')
+            });
+        const mercury = new THREE.Mesh(sphereGeometry, mercuryMaterial);
+        mercury.position.x = 7;
+        mercury.scale.set(.3, .3, .3);
+        mercuryOrbit.add(mercury);
+
+
+        //Venus
+        const venusOrbit = new THREE.Object3D();
+        solarSystem.add(venusOrbit);
+
+        const venusMaterial = new THREE.MeshBasicMaterial({
+                map: loader.load('./textures/venus.jpg')
+            });
+        const venus = new THREE.Mesh(sphereGeometry, venusMaterial);
+        venus.position.x = 10;
+        venus.scale.set(.9, .9, .9);
+        venusOrbit.add(venus);
+
+        // Earth
+        const earthOrbit = new THREE.Object3D();
+        earthOrbit.position.x = 15;
+        solarSystem.add(earthOrbit);
+
+        const earthMaterial = new THREE.MeshPhongMaterial({
+                map: loader.load('./textures/earth.jpg'), emissive: 0x222222
+            });
+        const earth = new THREE.Mesh(sphereGeometry, earthMaterial);
+        earth.scale.set(1, 1, 1);
+        earthOrbit.add(earth);
+
+        // Moon
+        const moonOrbit = new THREE.Object3D();
+        moonOrbit.position.x = 2;
+        earthOrbit.add(moonOrbit);
+
+        const moonMaterial = new THREE.MeshBasicMaterial({
+                map: loader.load('./textures/moon.jpg')
+            } );
+        const moon = new THREE.Mesh(sphereGeometry, moonMaterial);
+        moon.scale.set(.2, .2, .2);
+        moonOrbit.add(moon);
+
+        //Mars
+        const marsOrbit = new THREE.Object3D();
+        solarSystem.add(marsOrbit);
+
+        const marsMaterial = new THREE.MeshBasicMaterial({
+                map: loader.load('./textures/mars.jpg')
+            } );
+        const mars = new THREE.Mesh(sphereGeometry, marsMaterial);
+        mars.position.x = 19;
+        mars.scale.set(.7, .7, .7);
+        marsOrbit.add(mars);
+
+        //Jupiter
+        const jupiterOrbit = new THREE.Object3D();
+        solarSystem.add(jupiterOrbit);
+
+        const jupiterMaterial = new THREE.MeshBasicMaterial({
+                map: loader.load('./textures/jupiter.jpg')
+            } );
+        const jupiter = new THREE.Mesh(sphereGeometry, jupiterMaterial);
+        jupiter.position.x = 26;
+        jupiter.scale.set(3, 3, 3);
+        jupiterOrbit.add(jupiter);
+
+        //Saturn
+        const saturnOrbit = new THREE.Object3D();
+        solarSystem.add(saturnOrbit);
+
+        const saturnMaterial = new THREE.MeshBasicMaterial({
+                map: loader.load('./textures/saturn.jpg')
+            });
+        const saturn = new THREE.Mesh(sphereGeometry, saturnMaterial);
+        saturn.position.x = 37;
+        saturn.scale.set(2.7, 2.7, 2.7);
+        saturnOrbit.add(saturn);
+
+
+        //Uranus
+        const uranusOrbit = new THREE.Object3D();
+        solarSystem.add(uranusOrbit);
+
+        const uranusMaterial = new THREE.MeshBasicMaterial({
+                map: loader.load('./textures/uranus.jpg')
+            });
+        const uranus = new THREE.Mesh(sphereGeometry, uranusMaterial);
+        uranus.position.x = 46;
+        uranus.scale.set(1.5, 1.5, 1.5);
+        uranusOrbit.add(uranus);
+
+
+        // Neptune
+        const neptuneOrbit = new THREE.Object3D();
+        solarSystem.add(neptuneOrbit);
+
+        const neptuneMaterial = new THREE.MeshBasicMaterial({
+                map: loader.load('./textures/neptune.jpg')
+            });
+        const neptune = new THREE.Mesh(sphereGeometry, neptuneMaterial);
+        neptune.position.x = 54;
+        neptune.scale.set(1.5, 1.5, 1.5);
+        neptuneOrbit.add(neptune);
+
+
+        // Orbit Controls
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.minDistance = 1;
+        controls.maxDistance = 500;
+        controls.update();
+
+  
+        function animate() {
+            requestAnimationFrame(animate);
+
+            solarSystem.rotation.y += 0.005;
+            mercuryOrbit.rotation.y += 0.002;
+            venusOrbit.rotation.y += 0.003;
+            earthOrbit.rotation.y += 0.06;
+            marsOrbit.rotation.y += 0.007;
+            jupiterOrbit.rotation.y += 0.008;
+            saturnOrbit.rotation.y += 0.009;
+            uranusOrbit.rotation.y += 0.01;
+            neptuneOrbit.rotation.y += 0.011;
+            
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        //Resize
+        window.addEventListener('resize', onWindowResize, false);
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight)
+        }
+
+    </script>
+</body>
+
+</html>

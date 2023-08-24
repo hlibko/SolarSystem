@@ -1,9 +1,9 @@
-3D сцена сонячної системи за допомогою Three.js:
+3D scene of the solar system using Three.js:
 
-- налаштована сцена, камера (PerspectiveCamera) та засіб візуалізації
-- додано геометричні фігури "Сонце" та планети сонячної системи (Object3D())
-- поверхня планет - MeshBasicMaterial з використанням текстур (зображення JPG)
-- створений цикл анімації animate() - обертання планет навколо сонця
-- додана взаємодію за допомогою OrbitControls
+- configured scene, camera (PerspectiveCamera) and rendering tool
+- added geometric figures "Sun" and planets of the solar system (Object3D())
+- surface of the planets - MeshBasicMaterial using textures (JPG image)
+- created animation cycle animate() - rotation of planets around the sun
+- added interaction using OrbitControls
 
-Для демонстрації використовувати VS Code Live Server або ін. 
+For demonstration, use VS Code Live Server or others.
